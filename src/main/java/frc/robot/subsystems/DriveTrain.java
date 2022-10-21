@@ -90,7 +90,7 @@ public class DriveTrain extends SubsystemBase {
     m_gyroSim = new ADXRS450_GyroSim(m_gyro);
 
     m_fieldSim = new Field2d();
-    SmartDashboard.putData("Field", m_fieldSim);
+    
   }
 
   @Override
@@ -100,6 +100,8 @@ public class DriveTrain extends SubsystemBase {
     m_fieldSim.setRobotPose(getPose());
 
     SmartDashboard.putNumber("Angulo del Robot", getHeading());
+
+    SmartDashboard.putData("Field", m_fieldSim);
   }
 
   @Override
