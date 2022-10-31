@@ -6,5 +6,5 @@ Codigo base de simulación de Chasis de FRC, es un banco de pruebas para probar 
 
 
 ## Documentación
-[Wiki] (https://pages.github.com/)
+[Wiki](https://github.com/DiegoLolzano/FRCRobotSim-2022/wiki).
 
