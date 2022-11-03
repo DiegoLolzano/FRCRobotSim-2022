@@ -6,7 +6,7 @@ Codigo base de simulación de Chasis de FRC, es un banco de pruebas para probar 
 
 
 ## Documentación
-[Wiki](https://github.com/DiegoLolzano/FRCRobotSim-2022/wiki) Contiene fragmentos resumidos de la documentación oficial de WPILib. Se tomarón varios fragmentos para hacerla mas directa y concisa en cuestión a la programación.
+La [Wiki](https://github.com/DiegoLolzano/FRCRobotSim-2022/wiki) contiene fragmentos resumidos de la documentación oficial de WPILib. Se tomarón varios de estos para hacerla mas directa y concisa en cuestión a la programación.
 Aun así se recomienda leer la documentación oficial para leer mas a detalle sobre este tema. 
 [Documentación oficial de WPILib](https://docs.wpilib.org/es/stable/index.html)
 [Simulación del robot](https://docs.wpilib.org/es/stable/docs/software/wpilib-tools/robot-simulation/index.html)
