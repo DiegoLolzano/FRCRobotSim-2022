@@ -21,7 +21,6 @@ import frc.robot.subsystems.DriveTrain;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveTrain m_robotDrive = new DriveTrain();
-
   Joystick joy0 = new Joystick(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -29,6 +28,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
+    //Llama al comando de teleoperado, 
+    //se le asignan los joysticks a usar
     m_robotDrive.setDefaultCommand(new DriveCommand(m_robotDrive, 
     () -> joy0.getRawAxis(0), 
     () -> joy0.getRawAxis(1)));
@@ -40,6 +41,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
+
+  //Limita la velocidad del robot
+  //a la hora de presionar el
+  //boton x del gamepad
   private void configureButtonBindings() {
     new JoystickButton(joy0, 1)
         .whenPressed(() -> m_robotDrive.setMaxOutput(0.5))

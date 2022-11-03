@@ -28,34 +28,47 @@ import frc.robot.Constants.DriveConstants;
 
 public class DriveTrain extends SubsystemBase {
 
+  //Declaraciones de motores
   WPI_TalonSRX leftFront = new WPI_TalonSRX(0);
   WPI_TalonSRX leftRear = new WPI_TalonSRX(1);
   WPI_TalonSRX rightFront = new WPI_TalonSRX(2);
   WPI_TalonSRX rightRear = new WPI_TalonSRX(3);
 
+  //Estos objetos pueden recibir o regresar valores de entrada de motores
   TalonSRXSimCollection leftSim = leftFront.getSimCollection();
   TalonSRXSimCollection rightSim = rightFront.getSimCollection();
 
+  //Permite que multiples objetos tipo MotorController (Controladores de motores) esten vinculados
   private final MotorControllerGroup m_leftMotors = 
   new MotorControllerGroup(leftFront, leftRear);
 
   private final MotorControllerGroup m_rightMotors = 
   new MotorControllerGroup(rightFront, rightRear);
 
+  //Permite que el robot se mueva
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
   
+  //Encoders físicos
   private Encoder m_leftEncoder = new Encoder(DriveConstants.kLeftEncoderPorts[0], DriveConstants.kLeftEncoderPorts[1], DriveConstants.kLeftEncoderReversed);
   private Encoder m_rightEncoder = new Encoder(DriveConstants.kRightEncoderPorts[0], DriveConstants.kRightEncoderPorts[1], DriveConstants.kRightEncoderReversed);
 
+  //Giroscopio físico
   private ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
 
+  //Clase para la odometria (posición en la cancha)
   private final DifferentialDriveOdometry m_odometry;
 
+  //Esta clase simula el estado de un drivetrain
   public DifferentialDrivetrainSim m_drivetrainSim;
+
+  //Encoders simulados
   private EncoderSim m_leftEncoderSim;
   private EncoderSim m_rightEncoderSim;
   
+  //Representación 2D de la cancha de juego para dashboards
   private Field2d m_fieldSim;
+
+  //Giroscopio simulado
   private ADXRS450_GyroSim m_gyroSim;
 
   /** Creates a new DriveTrain. */
@@ -72,8 +85,9 @@ public class DriveTrain extends SubsystemBase {
     resetEncoders();
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
-    if (RobotBase.isSimulation()) { // If our robot is simulated
-      // This class simulates our drivetrain's motion around the field.
+    if (RobotBase.isSimulation()) { 
+      // Si nuestro robot es simulado
+      // Esta clase simula el movimiento de nuestro drivetrain en la cancha.
       m_drivetrainSim =
           new DifferentialDrivetrainSim(
               DriveConstants.kDrivetrainPlant,
@@ -84,6 +98,7 @@ public class DriveTrain extends SubsystemBase {
               VecBuilder.fill(0, 0, 0.0001, 0.1, 0.1, 0.005, 0.005));
     }
 
+    /****** METODOS CONSTRUCTORES ******/
     m_leftEncoderSim = new EncoderSim(m_leftEncoder);
     m_rightEncoderSim = new EncoderSim(m_rightEncoder);
 
@@ -99,17 +114,19 @@ public class DriveTrain extends SubsystemBase {
     m_odometry.update(Rotation2d.fromDegrees(getHeading()), m_leftEncoder.getDistance(), m_rightEncoder.getDistance());
     m_fieldSim.setRobotPose(getPose());
 
-    SmartDashboard.putNumber("Angulo del Robot", getHeading());
-
     SmartDashboard.putData("Field", m_fieldSim);
+
+    SmartDashboard.putNumber("Angulo del robot", getHeading());
+
+    
   }
 
   @Override
   public void simulationPeriodic() {
-    // To update our simulation, we set motor voltage inputs, update the simulation,
-    // and write the simulated positions and velocities to our simulated encoder and gyro.
-    // We negate the right side so that positive voltages make the right side
-    // move forward.
+    // Para actualizar nuestra simulación, establecemos las entradas de voltaje del robot, actualizar la simulación 
+    // y escribir las posiciones y velocidades simuladas a nuestro encoder y giroscopio simulado.
+    // Se pone negativo el lado derecho para que voltajes positivos hagan que el lado derecho
+    // se mueva hacia adelante.
     
     m_drivetrainSim.setInputs(
         m_leftMotors.get() * RobotController.getBatteryVoltage(),
@@ -136,19 +153,19 @@ public class DriveTrain extends SubsystemBase {
   }
 
   /**
-   * Returns the current being drawn by the drivetrain. This works in SIMULATION ONLY! If you want
-   * it to work elsewhere, use the code in {@link DifferentialDrivetrainSim#getCurrentDrawAmps()}
+   * Regresa la corriente consumida por el drivetrain. Esto solo funciona en ¡SIMULACIÓN! Si quieres que
+   * funcione en cualquier otra cosa, use el codigo en: {@link DifferentialDrivetrainSim#getCurrentDrawAmps()}
    *
-   * @return The drawn current in Amps.
+   * @return La corriente consumida en Amperes
    */
   public double getDrawnCurrentAmps() {
     return m_drivetrainSim.getCurrentDrawAmps();
   }
 
   /**
-   * Returns the currently-estimated pose of the robot.
+   * Regresa la posición estimada actual del robot.
    *
-   * @return The pose.
+   * @return La posición
    */
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
@@ -203,6 +220,8 @@ public class DriveTrain extends SubsystemBase {
         * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
+  /****** CONVERSIONES ******/
+  //Distancia a unidades de encoder
   private int distanceToNativeUnits(double positionMeters){
     double wheelRotations = positionMeters/(2 * Math.PI * DriveConstants.kWheelDiameterMeters);
     double motorRotations = wheelRotations * DriveConstants.kDriveGearing;
@@ -210,6 +229,7 @@ public class DriveTrain extends SubsystemBase {
     return sensorCounts;
   }
 
+  //Unidades de encoder a Distancia en metros
     private double nativeUnitsToDistanceMeters(double sensorCounts){
     double motorRotations = (double)sensorCounts / DriveConstants.kEncoderCPR;
     double wheelRotations = motorRotations / DriveConstants.kDriveGearing;
@@ -217,6 +237,7 @@ public class DriveTrain extends SubsystemBase {
     return positionMeters;
   }
 
+  //Velocidad (metros por segundo) a unidades de encoder
   private int velocityToNativeUnits(double velocityMetersPerSecond){
     double wheelRotationsPerSecond = velocityMetersPerSecond/(2 * Math.PI * DriveConstants.kWheelDiameterMeters);
     double motorRotationsPerSecond = wheelRotationsPerSecond * DriveConstants.kDriveGearing;

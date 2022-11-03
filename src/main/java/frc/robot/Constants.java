@@ -11,21 +11,23 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
- * globally (i.e. public static). Do not put anything functional in this class.
+ * La clase Constants provee un lugar conveniente para que los equipos mantengan valores numericos o booleanos constantes de todo el robot
+ * Esta clase no debe ser usada para otro propsito. Todas las constantes deben ser declaradas
+ * globalmente (Ej. public static). No ponga nada funcional en esta clase.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
+ * <p>Se recomienda importar estaticamente esta clase(o alguna clase de su interior) donde sea que
+ * las constantes sean necesitadas, para reducir verbosidad.
  */
 public final class Constants {
     public static final class DriveConstants{
 
+      //Puertos de encoder. Necesarios para el metodo constructor de este objeto
     public static final int[] kLeftEncoderPorts = new int[] {0, 1};
     public static final int[] kRightEncoderPorts = new int[] {2, 3};
+
     public static final boolean kLeftEncoderReversed = false;
-   
     public static final boolean kRightEncoderReversed = true;
+
     public static final double kTrackwidthMeters = 0.69;
     public static final DifferentialDriveKinematics kDriveKinematics =
         new DifferentialDriveKinematics(kTrackwidthMeters);
@@ -36,24 +38,24 @@ public final class Constants {
     public static final double kWheelDiameterMeters = 0.1524;
     public static final double kEncoderDistancePerPulse = //0.001948;
 
-        // Assumes the encoders are directly mounted on the wheel shafts
+        // Asume que los encoders estan montados direectamente en los ejes de las ruedas
         (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR * 12.0;
 
     public static final boolean kGyroReversed = true;
 
-    // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
-    // These characterization values MUST be determined either experimentally or theoretically
-    // for *your* robot's drive.
-    // The Robot Characterization Toolsuite provides a convenient tool for obtaining these
-    // values for your robot.
+    // Estos son solo valores de ejemplos - ¡NO USE NINGUNO DE ESTOS PARA SU PROPIO ROBOT!
+    // Estos valores de caracterización DEBEN de ser determinados ya sea de forma experimental o teorica
+    // para *su* unidad de robot
+    // El Conjunto de herramientas de caracterización de robots proporciona una herramienta conveniente para obtener estos
+    // valores para su robot.
     public static final double ksVolts = 0.22;
     public static final double kvVoltSecondsPerMeter = 1.98;
     public static final double kaVoltSecondsSquaredPerMeter = 0.2;
 
-    // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
-    // These characterization values MUST be determined either experimentally or theoretically
-    // for *your* robot's drive.
-    // These two values are "angular" kV and kA
+    // Estos son solo valores de ejemplos - ¡NO USE NINGUNO DE ESTOS PARA SU PROPIO ROBOT!
+    // Estos valores de caracterización DEBEN de ser determinados ya sea de forma experimental o teorica
+    // para *su* unidad de robot
+    // Estos dos valores son kV and kA "angular"
     public static final double kvVoltSecondsPerRadian = 1.5;
     public static final double kaVoltSecondsSquaredPerRadian = 0.3;
 
@@ -64,11 +66,11 @@ public final class Constants {
             kvVoltSecondsPerRadian,
             kaVoltSecondsSquaredPerRadian);
 
-    // Example values only -- use what's on your physical robot!
+    // Valores solamente de ejemplo -- ¡usa lo que esta en tu robot físico!
     public static final DCMotor kDriveGearbox = DCMotor.getFalcon500(2);
     public static final double kDriveGearing = 12;
 
-    // Example value only - as above, this must be tuned for your drive!
+    // Valores solamente de ejemplo - ¡esto debe ser afinado para su chasis!
     public static final double kPDriveVel = 0.1;
   }
 
@@ -80,7 +82,7 @@ public final class Constants {
     public static final double kMaxSpeedMetersPerSecond = 3.7;
     public static final double kMaxAccelerationMetersPerSecondSquared = 9.906;
 
-    // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
+    // Valores de referencia razonables para un follower RAMSETE en unidades de metros y segundos
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;
   }
